@@ -1,0 +1,12 @@
+# dwm-patchset
+
+Mercurial patchset for `dwm` customisations.
+
+Inspired by [Jason Wryan][1], pushed with [hg-git][2].
+
+## Author
+
+Copyright 2012 Tom Vincent <http://tlvince.com/contact/>
+
+  [1]: http://jasonwryan.com/blog/2012/07/24/queues/
+  [2]: http://hg-git.github.com/
