@@ -1,9 +1,9 @@
 # HG changeset patch
-# Parent 179103fe0e0790dd3cd36743b28bd41edf4bc8e7
+# Parent 8f09a1e6ba29a50607e32c925c920bb31226d4a1
 
-diff -r 179103fe0e07 config.def.h
---- a/config.def.h	Fri Aug 10 14:14:36 2012 +0800
-+++ b/config.def.h	Fri Aug 10 14:15:44 2012 +0800
+diff -r 8f09a1e6ba29 config.def.h
+--- a/config.def.h	Fri Aug 10 14:24:50 2012 +0800
++++ b/config.def.h	Fri Aug 10 14:28:31 2012 +0800
 @@ -3,14 +3,14 @@
  /* appearance */
  static const char font[]            = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
@@ -25,7 +25,7 @@ diff -r 179103fe0e07 config.def.h
  static const Bool topbar            = True;     /* False means bottom bar */
  
  /* tagging */
-@@ -22,14 +22,13 @@
+@@ -22,24 +22,25 @@
  	 *	WM_NAME(STRING) = title
  	 */
  	/* class      instance    title       tags mask     isfloating   monitor */
@@ -41,9 +41,13 @@ diff -r 179103fe0e07 config.def.h
 -static const Bool resizehints = True; /* True means respect size hints in tiled resizals */
 +static const Bool resizehints = False; /* True means respect size hints in tiled resizals */
  
++#include "grid.c"
  static const Layout layouts[] = {
  	/* symbol     arrange function */
-@@ -39,7 +38,7 @@
+ 	{ "[]=",      tile },    /* first entry is default */
+ 	{ "><>",      NULL },    /* no layout function means floating behavior */
+ 	{ "[M]",      monocle },
++	{ "HHH",      grid },
  };
  
  /* key definitions */
@@ -52,7 +56,7 @@ diff -r 179103fe0e07 config.def.h
  #define TAGKEYS(KEY,TAG) \
  	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
  	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-@@ -50,12 +49,12 @@
+@@ -50,12 +51,12 @@
  #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
  
  /* commands */
@@ -68,7 +72,7 @@ diff -r 179103fe0e07 config.def.h
  	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
  	{ MODKEY,                       XK_b,      togglebar,      {0} },
  	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-@@ -74,10 +73,10 @@
+@@ -74,10 +75,10 @@
  	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
  	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
  	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
@@ -83,3 +87,35 @@ diff -r 179103fe0e07 config.def.h
  	TAGKEYS(                        XK_1,                      0)
  	TAGKEYS(                        XK_2,                      1)
  	TAGKEYS(                        XK_3,                      2)
+diff -r 8f09a1e6ba29 grid.c
+--- /dev/null	Thu Jan 01 00:00:00 1970 +0000
++++ b/grid.c	Fri Aug 10 14:28:31 2012 +0800
+@@ -0,0 +1,28 @@
++void
++grid(Monitor *m) {
++	unsigned int i, n, cx, cy, cw, ch, aw, ah, cols, rows;
++	Client *c;
++
++	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next))
++		n++;
++
++	/* grid dimensions */
++	for(rows = 0; rows <= n/2; rows++)
++		if(rows*rows >= n)
++			break;
++	cols = (rows && (rows - 1) * rows >= n) ? rows - 1 : rows;
++
++	/* window geoms (cell height/width) */
++	ch = m->wh / (rows ? rows : 1);
++	cw = m->ww / (cols ? cols : 1);
++	for(i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next)) {
++		cx = m->wx + (i / rows) * cw;
++		cy = m->wy + (i % rows) * ch;
++		/* adjust height/width of last row/column's windows */
++		ah = ((i + 1) % rows == 0) ? m->wh - ch * rows : 0;
++		aw = (i >= rows * (cols - 1)) ? m->ww - cw * cols : 0;
++		resize(c, cx, cy, cw - 2 * c->bw + aw, ch - 2 * c->bw + ah, False);
++		i++;
++	}
++}
++
