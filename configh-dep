@@ -1,0 +1,15 @@
+# HG changeset patch
+# Parent e63ee01b94a89d60446bd486a7108ca658a2ed1f
+
+diff -r e63ee01b94a8 Makefile
+--- a/Makefile	Fri Aug 10 13:53:21 2012 +0800
++++ b/Makefile	Fri Aug 10 13:54:23 2012 +0800
+@@ -20,7 +20,7 @@
+ 
+ ${OBJ}: config.h config.mk
+ 
+-config.h:
++config.h: config.def.h
+ 	@echo creating $@ from config.def.h
+ 	@cp config.def.h $@
+ 
