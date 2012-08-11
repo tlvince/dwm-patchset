@@ -1,9 +1,9 @@
 # HG changeset patch
-# Parent 9cdd3e93452a130fa39eab04cdd8488a92141b7a
+# Parent d6a23a52058a5189da026f60154cfedc983419a1
 
-diff -r 9cdd3e93452a config.def.h
---- a/config.def.h	Fri Aug 10 14:45:11 2012 +0800
-+++ b/config.def.h	Fri Aug 10 14:47:51 2012 +0800
+diff -r d6a23a52058a config.def.h
+--- a/config.def.h	Sat Aug 11 16:38:08 2012 +0800
++++ b/config.def.h	Sat Aug 11 16:41:32 2012 +0800
 @@ -3,14 +3,14 @@
  /* appearance */
  static const char font[]            = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
@@ -52,7 +52,7 @@ diff -r 9cdd3e93452a config.def.h
  #define TAGKEYS(KEY,TAG) \
  	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
  	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-@@ -50,12 +49,12 @@
+@@ -50,13 +49,15 @@
  #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
  
  /* commands */
@@ -60,15 +60,18 @@ diff -r 9cdd3e93452a config.def.h
 -static const char *termcmd[]  = { "uxterm", NULL };
 +static const char *dmenucmd[] = { "dmenu-run", NULL };
 +static const char *termcmd[]  = { "urxvtc", NULL };
++static const char *clockcmd[]  = { "dzen-time", NULL };
  
  static Key keys[] = {
  	/* modifier                     key        function        argument */
 -	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 +	{ MODKEY,                       XK_r,      spawn,          {.v = dmenucmd } },
  	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
++	{ MODKEY,                       XK_c,      spawn,          {.v = clockcmd } },
  	{ MODKEY,                       XK_b,      togglebar,      {0} },
  	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-@@ -74,10 +73,10 @@
+ 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+@@ -74,10 +75,10 @@
  	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
  	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
  	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
