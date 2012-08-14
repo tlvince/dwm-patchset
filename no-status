@@ -1,9 +1,27 @@
 # HG changeset patch
-# Parent b63cfd1ec1af22f16fbf6dccfa0ef981bfd46084
+# Parent 87b80dcdfc0a98eed007f38bc55a46b863705484
 
-diff -r b63cfd1ec1af dwm.c
---- a/dwm.c	Tue Aug 14 15:52:41 2012 +0800
-+++ b/dwm.c	Tue Aug 14 15:57:34 2012 +0800
+diff -r 87b80dcdfc0a config.def.h
+--- a/config.def.h	Tue Aug 14 15:58:18 2012 +0800
++++ b/config.def.h	Tue Aug 14 15:58:51 2012 +0800
+@@ -96,13 +96,12 @@
+ };
+ 
+ /* button definitions */
+-/* click can be ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
++/* click can be ClkLtSymbol, ClkWinTitle, ClkClientWin, or ClkRootWin */
+ static Button buttons[] = {
+ 	/* click                event mask      button          function        argument */
+ 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
+ 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
+ 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
+-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+ 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
+ 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
+ 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
+diff -r 87b80dcdfc0a dwm.c
+--- a/dwm.c	Tue Aug 14 15:58:18 2012 +0800
++++ b/dwm.c	Tue Aug 14 15:58:51 2012 +0800
 @@ -63,7 +63,7 @@
         NetWMFullscreen, NetActiveWindow, NetWMWindowType,
         NetWMWindowTypeDialog, NetClientList, NetLast };     /* EWMH atoms */
