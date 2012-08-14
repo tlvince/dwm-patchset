@@ -1,0 +1,47 @@
+# HG changeset patch
+# Parent ff04cacb66f346e1d0bf9a9de2e303696da81c90
+
+diff -r ff04cacb66f3 dwm.c
+--- a/dwm.c	Tue Aug 14 15:49:46 2012 +0800
++++ b/dwm.c	Tue Aug 14 15:50:50 2012 +0800
+@@ -244,7 +244,6 @@
+ static void updateclientlist(void);
+ static void updatenumlockmask(void);
+ static void updatesizehints(Client *c);
+-static void updatestatus(void);
+ static void updatewindowtype(Client *c);
+ static void updatetitle(Client *c);
+ static void updatewmhints(Client *c);
+@@ -1335,9 +1334,7 @@
+ 	Window trans;
+ 	XPropertyEvent *ev = &e->xproperty;
+ 
+-	if((ev->window == root) && (ev->atom == XA_WM_NAME))
+-		updatestatus();
+-	else if(ev->state == PropertyDelete)
++	if(ev->state == PropertyDelete)
+ 		return; /* ignore */
+ 	else if((c = wintoclient(ev->window))) {
+ 		switch(ev->atom) {
+@@ -1677,7 +1674,6 @@
+ 		XSetFont(dpy, dc.gc, dc.font.xfont->fid);
+ 	/* init bars */
+ 	updatebars();
+-	updatestatus();
+ 	/* EWMH support per view */
+ 	XChangeProperty(dpy, root, netatom[NetSupported], XA_ATOM, 32,
+ 			PropModeReplace, (unsigned char *) netatom, NetLast);
+@@ -2097,13 +2093,6 @@
+ }
+ 
+ void
+-updatestatus(void) {
+-	if(!gettextprop(root, XA_WM_NAME, stext, sizeof(stext)))
+-		strcpy(stext, "dwm-"VERSION);
+-	drawbar(selmon);
+-}
+-
+-void
+ updatewindowtype(Client *c) {
+ 	Atom state = getatomprop(c, netatom[NetWMState]);
+ 	Atom wtype = getatomprop(c, netatom[NetWMWindowType]);
