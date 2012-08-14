@@ -1,9 +1,18 @@
 # HG changeset patch
-# Parent ff04cacb66f346e1d0bf9a9de2e303696da81c90
+# Parent b63cfd1ec1af22f16fbf6dccfa0ef981bfd46084
 
-diff -r ff04cacb66f3 dwm.c
---- a/dwm.c	Tue Aug 14 15:49:46 2012 +0800
-+++ b/dwm.c	Tue Aug 14 15:50:50 2012 +0800
+diff -r b63cfd1ec1af dwm.c
+--- a/dwm.c	Tue Aug 14 15:52:41 2012 +0800
++++ b/dwm.c	Tue Aug 14 15:57:34 2012 +0800
+@@ -63,7 +63,7 @@
+        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
+        NetWMWindowTypeDialog, NetClientList, NetLast };     /* EWMH atoms */
+ enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
+-enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
++enum { ClkTagBar, ClkLtSymbol, ClkWinTitle,
+        ClkClientWin, ClkRootWin, ClkLast };             /* clicks */
+ 
+ typedef union {
 @@ -244,7 +244,6 @@
  static void updateclientlist(void);
  static void updatenumlockmask(void);
@@ -12,7 +21,35 @@ diff -r ff04cacb66f3 dwm.c
  static void updatewindowtype(Client *c);
  static void updatetitle(Client *c);
  static void updatewmhints(Client *c);
-@@ -1335,9 +1334,7 @@
+@@ -462,8 +461,6 @@
+ 		}
+ 		else if(ev->x < x + blw)
+ 			click = ClkLtSymbol;
+-		else if(ev->x > selmon->ww - TEXTW(stext))
+-			click = ClkStatusText;
+ 		else
+ 			click = ClkWinTitle;
+ 	}
+@@ -774,17 +771,7 @@
+ 	drawtext(m->ltsymbol, dc.norm, False);
+ 	dc.x += dc.w;
+ 	x = dc.x;
+-	if(m == selmon) { /* status is only drawn on selected monitor */
+-		dc.w = TEXTW(stext);
+-		dc.x = m->ww - dc.w;
+-		if(dc.x < x) {
+-			dc.x = x;
+-			dc.w = m->ww - x;
+-		}
+-		drawtext(stext, dc.norm, False);
+-	}
+-	else
+-		dc.x = m->ww;
++  dc.x = m->ww;
+ 	if((dc.w = dc.x - x) > bh) {
+ 		dc.x = x;
+ 		if(m->sel) {
+@@ -1335,9 +1322,7 @@
  	Window trans;
  	XPropertyEvent *ev = &e->xproperty;
  
@@ -23,7 +60,7 @@ diff -r ff04cacb66f3 dwm.c
  		return; /* ignore */
  	else if((c = wintoclient(ev->window))) {
  		switch(ev->atom) {
-@@ -1677,7 +1674,6 @@
+@@ -1677,7 +1662,6 @@
  		XSetFont(dpy, dc.gc, dc.font.xfont->fid);
  	/* init bars */
  	updatebars();
@@ -31,7 +68,7 @@ diff -r ff04cacb66f3 dwm.c
  	/* EWMH support per view */
  	XChangeProperty(dpy, root, netatom[NetSupported], XA_ATOM, 32,
  			PropModeReplace, (unsigned char *) netatom, NetLast);
-@@ -2097,13 +2093,6 @@
+@@ -2097,13 +2081,6 @@
  }
  
  void
