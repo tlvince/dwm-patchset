@@ -1,9 +1,9 @@
 # HG changeset patch
-# Parent a0cc00a35b3f46d6f189ee7b5eeb9066b8c45c07
+# Parent 874acacdde86fac38b981bf6a2dd7d389896f4c3
 
-diff -r a0cc00a35b3f config.def.h
---- a/config.def.h	Thu Aug 16 16:56:21 2012 +0800
-+++ b/config.def.h	Thu Aug 16 16:57:27 2012 +0800
+diff -r 874acacdde86 config.def.h
+--- a/config.def.h	Tue Aug 21 14:29:22 2012 +0800
++++ b/config.def.h	Tue Aug 21 14:31:11 2012 +0800
 @@ -3,14 +3,14 @@
  /* appearance */
  static const char font[]            = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
@@ -52,7 +52,7 @@ diff -r a0cc00a35b3f config.def.h
  #define TAGKEYS(KEY,TAG) \
  	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
  	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-@@ -50,13 +49,17 @@
+@@ -50,13 +49,19 @@
  #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
  
  /* commands */
@@ -62,6 +62,7 @@ diff -r a0cc00a35b3f config.def.h
 +static const char *termcmd[]  = { "urxvtc", NULL };
 +static const char *clockcmd[] = { "dzen-time", NULL };
 +static const char *lockcmd[]  = { "lock", NULL };
++static const char *dmenumenucmd[] = { "dmenu-menu", NULL };
  
  static Key keys[] = {
  	/* modifier                     key        function        argument */
@@ -70,10 +71,11 @@ diff -r a0cc00a35b3f config.def.h
  	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 +	{ MODKEY,                       XK_c,      spawn,          {.v = clockcmd } },
 +	{ MODKEY|ShiftMask,             XK_l,      spawn,          {.v = lockcmd } },
++	{ MODKEY|ShiftMask,             XK_d,      spawn,          {.v = dmenumenucmd } },
  	{ MODKEY,                       XK_b,      togglebar,      {0} },
  	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
  	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-@@ -74,10 +77,10 @@
+@@ -74,10 +79,10 @@
  	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
  	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
  	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
