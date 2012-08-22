@@ -1,9 +1,9 @@
 # HG changeset patch
-# Parent 874acacdde86fac38b981bf6a2dd7d389896f4c3
+# Parent b7945b14c4e7aa6c4cb1e542e2458e01c20a6b9d
 
-diff -r 874acacdde86 config.def.h
---- a/config.def.h	Tue Aug 21 14:29:22 2012 +0800
-+++ b/config.def.h	Tue Aug 21 14:31:11 2012 +0800
+diff -r b7945b14c4e7 config.def.h
+--- a/config.def.h	Wed Aug 22 22:17:32 2012 +0800
++++ b/config.def.h	Wed Aug 22 22:18:02 2012 +0800
 @@ -3,14 +3,14 @@
  /* appearance */
  static const char font[]            = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
@@ -58,11 +58,11 @@ diff -r 874acacdde86 config.def.h
  /* commands */
 -static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
 -static const char *termcmd[]  = { "uxterm", NULL };
-+static const char *dmenucmd[] = { "dmenu-run", NULL };
++static const char *dmenucmd[] = { "dmenu_run", NULL };
 +static const char *termcmd[]  = { "urxvtc", NULL };
 +static const char *clockcmd[] = { "dzen-time", NULL };
 +static const char *lockcmd[]  = { "lock", NULL };
-+static const char *dmenumenucmd[] = { "dmenu-menu", NULL };
++static const char *dmenumenucmd[] = { "dmenu_menu", NULL };
  
  static Key keys[] = {
  	/* modifier                     key        function        argument */
